@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AirBnB clone</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="static/images/icon.ico" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/4-common.css') + '?' + cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-header.css') + '?' + cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-footer.css') + '?' + cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/6-filters.css') + '?' + cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/100-places.css') + '?' + cache_id }}">
+
+    <SCRIPT src="https://code.jquery.com/jquery-3.2.1.min.js"></SCRIPT>
+    <SCRIPT src="{{ url_for('static', filename='scripts/3-hbnb.js') + '?' + cache_id }}"></SCRIPT>
+  </head>
+  <body>
+    <header>
+        <HEADER>
+            <div id="header_logo"></div>
+            <div id="api_status" class="available">
+            </div>
+          </HEADER>
+    </header>
+    <div class="container">
+      <section class="filters">
+        <button>Search</button>
+        <div class="locations">
+          <h3>States</h3>
+          <h4>&nbsp;</h4>
+          <ul class="popover">
+            {% for state in states.values()|sort(attribute="name") %}
+            <li>
+              <strong>{{ state.name }}</strong>
+              <ul>
+                {% for city in state.cities|sort(attribute="name") %}
+                <li>{{ city.name }}</li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="filter_amenities">
+          <h3>Amenities</h3>
+          <h4>&nbsp;</h4>
+          <ul class="popover">
+            {% for amenity in amenities.values()|sort(attribute="name") %}
+            <li>
+                <INPUT type="checkbox" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">
+                    {{ amenity.name }}
+                  </INPUT>
+
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
+      <section class="places">
+        <h1>Places</h1>
+        {% for place in places.values()|sort(attribute="name") %}
+
+        {% endfor %}
+      </section>
+    </div>
+    <footer>
+      <p>Holberton School</p>
+    </footer>
+  </body>
+</html>
