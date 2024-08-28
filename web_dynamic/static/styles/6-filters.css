@@ -58,6 +58,10 @@
 	position: sticky;
 }
 
+.filter_amenities ul li {
+	padding-left: 10px;
+}
+
 ul {
 	list-style-type: none;
 	padding: 0px;
