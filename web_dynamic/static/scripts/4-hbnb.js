@@ -9,10 +9,11 @@ $("document").ready(function () {
     success: function (response) {
       if (response.status === "OK") {
         $("DIV#api_status").addClass("available");
-      } else {
-        $("DIV#api_status").removeClass("available");
       }
     },
+    error: () => {
+      $("DIV#api_status").removeClass("available");
+    }
   });
 
   $.ajax({
@@ -22,11 +23,11 @@ $("document").ready(function () {
     contentType: "application/json",
     dataType: "json",
     success: function (data) {
-      return Places(data);
+      return places(data);
     },
   });
 
-  let amenities = {};
+  const amenities = {};
   $('INPUT[type="checkbox"]').change(function () {
     if ($(this).is(":checked")) {
       amenities[$(this).attr("data-id")] = $(this).attr("data-name");
@@ -34,12 +35,13 @@ $("document").ready(function () {
       delete amenities[$(this).attr("data-id")];
     }
     if (Object.values(amenities).length === 0) {
-      $(".amenities H4").html("&nbsp;");
+      $(".filter_amenities H4").html("&nbsp;");
     } else {
-      $(".amenities H4").text(Object.values(amenities).join(", "));
+      $(".filter_amenities H4").text(Object.values(amenities).join(", "));
     }
   });
 
+  // search for filtering places according to ameninites
   $("BUTTON").click(function () {
     $.ajax({
       url: api,
@@ -49,13 +51,22 @@ $("document").ready(function () {
       dataType: "json",
       success: function (data) {
         $("SECTION.places").empty();
-        return Places(data);
+        return places(data);
       },
     });
   });
 });
 
-function Places(data) {
+function places(data) {
+  data.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1
+    } else if (a.name > b.name) {
+      return 1
+    } else {
+      return 0;
+    }
+  });
   $("SECTION.places").append(
     data.map((place) => {
       return `<article>
