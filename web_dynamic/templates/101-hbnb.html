@@ -31,15 +31,14 @@
           <h4>&nbsp;</h4>
           <ul class="popover">
             {% for state in states.values()|sort(attribute="name") %}
-            <li>
-              <strong>{{ state.name }}</strong>
+            <li class="states">
+              <INPUT type="checkbox" data-id="{{ state.id }}" data-name="{{ state.name }}">
+                        <strong>{{ state.name }}</strong>
               <ul>
                 {% for city in state.cities|sort(attribute="name") %}
-                <li>
+                <li class="cities">
                     <INPUT type="checkbox" data-id="{{ city.id }}" data-name="{{ city.name }}">
                         {{ city.name }}
-                      </INPUT>
-
                 </li>
                 {% endfor %}
               </ul>
@@ -47,7 +46,7 @@
             {% endfor %}
           </ul>
         </div>
-        <div class="filter_amenities">
+        <div class="amenities">
           <h3>Amenities</h3>
           <h4>&nbsp;</h4>
           <ul class="popover">
@@ -64,9 +63,9 @@
       </section>
       <section class="places">
         <h1>Places</h1>
-        {% for place in places.values()|sort(attribute="name") %}
+        {# {% for place in places.values()|sort(attribute="name") %} #}
 
-        {% endfor %}
+        {# {% endfor %} #}
       </section>
     </div>
     <footer>

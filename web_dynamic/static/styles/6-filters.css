@@ -24,8 +24,13 @@
 	height: 100%;
 	float: left;
 	width: 25%;
-
 	line-height: 20px;
+}
+
+.amenities h4, .locations h4 {
+	overflow-x: scroll;
+	/* text-overflow: ellipsis; */
+	white-space: nowrap;
 }
 
 .popover {

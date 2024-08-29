@@ -22,42 +22,32 @@ $("document").ready(function () {
     contentType: "application/json",
     dataType: "json",
     success: function (data) {
-      return Places(data);
+      return places(data);
     },
   });
 
-  let states = {};
-  $('.locations > UL > H2 > INPUT[type="checkbox"]').change(function () {
+  const states = {};
+  $('.locations .states INPUT[type="checkbox"]').change(function () {
     if ($(this).is(":checked")) {
       states[$(this).attr("data-id")] = $(this).attr("data-name");
     } else {
       delete states[$(this).attr("data-id")];
     }
-    const locations = Object.assign({}, states, cities);
-    if (Object.values(locations).length === 0) {
-      $(".locations H4").html("&nbsp;");
-    } else {
-      $(".locations H4").text(Object.values(locations).join(", "));
-    }
+    displayLocations(states, cities);
   });
 
-  let cities = {};
-  $('.locations > UL > UL > LI INPUT[type="checkbox"]').change(function () {
+  const cities = {};
+  $('.locations .cities INPUT[type="checkbox"]').change(function () {
     if ($(this).is(":checked")) {
       cities[$(this).attr("data-id")] = $(this).attr("data-name");
     } else {
       delete cities[$(this).attr("data-id")];
     }
-    const locations = Object.assign({}, states, cities);
-    if (Object.values(locations).length === 0) {
-      $(".locations H4").html("&nbsp;");
-    } else {
-      $(".locations H4").text(Object.values(locations).join(", "));
-    }
+    displayLocations(states, cities);
   });
 
-  let amenities = {};
-  $('INPUT[type="checkbox"]').change(function () {
+  const amenities = {};
+  $('.amenities INPUT[type="checkbox"]').change(function () {
     if ($(this).is(":checked")) {
       amenities[$(this).attr("data-id")] = $(this).attr("data-name");
     } else {
@@ -83,53 +73,62 @@ $("document").ready(function () {
       dataType: "json",
       success: function (data) {
         $("SECTION.places").empty();
-        return Places(data);
+        return places(data);
       },
     });
   });
 
   $(document).on("click", ".rev-show", function () {
-    const thisrev = $(this).closest(".reviews").find(".review-lit");
+    console.log("Clicked!!!");
+    const thisrev = $(this).closest(".reviews").find(".review-list");
     if (thisrev.is(":empty")) {
       place_id = $(this).attr("data-id");
-      const api_review =
-        "http://" +
-        window.location.hostname +
-        ":5001/api/v1/places/" +
-        place_id +
-        "/reviews";
+      const api_review = "http://" + window.location.hostname + ":5001/api/v1/places/" + place_id + "/reviews";
       $.ajax({
         url: api_review,
         type: "GET",
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-          thisrev.empty();
+          console.log("Ajax!!!");
+          // thisrev.empty();
           thisrev.append(
             data.map((review) => {
               return `
             <ul>
-            <li>
-                <div class="review_item">
-                    <h3>From ${review.user_name} the ${moment(
-                review.updated_at
-              ).format("Do MMMM YYYY")}</h3>
-                    <p class="review_text">${review.text}</p>
-                </div>
-            </li>
-        </ul>
+              <li>
+                  <div class="review_item">
+                      <h3>From ${review.user_name} the ${moment(
+                  review.updated_at
+                ).format("Do MMMM YYYY")}</h3>
+                      <p class="review_text">${review.text}</p>
+                  </div>
+              </li>
+            </ul>
             `;
             })
           );
         },
       });
+      console.log("After Ajax");
+      $(this).text('hide');
     } else {
-      thisrev.empty();
+        thisrev.empty();
+        $(this).text('show');
     }
   });
 });
 
-function Places(data) {
+function displayLocations(states, cities) {
+  const locations = Object.assign({}, states, cities);
+  if (Object.values(locations).length === 0) {
+    $(".locations H4").html("&nbsp;");
+  } else {
+    $(".locations H4").text(Object.values(locations).join(", "));
+  }
+}
+
+function places(data) {
   $("SECTION.places").append(
     data.map((place) => {
       return `<article>
@@ -156,14 +155,13 @@ function Places(data) {
           <div class="reviews">
             <div class = "review-head">
                 <h2 class="article_subtitle">Reviews</h2>
-                <span class = "rev-show" data-id ="${place.id}"> show </span>
+                <span class ="rev-show" data-id ="${place.id}"> show </span>
             </div>
 
-          <div class="review-lit">
-
-          </div>
+          <div class="review-list">
+            
       </div>
-        </article>`;
+    </article>`;
     })
   );
 }
