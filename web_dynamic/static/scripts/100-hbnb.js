@@ -22,42 +22,32 @@ $("document").ready(function () {
     contentType: "application/json",
     dataType: "json",
     success: function (data) {
-      return Places(data);
+      return places(data);
     },
   });
 
-  let states = {};
-  $('.locations > UL > H2 > INPUT[type="checkbox"]').change(function () {
+  const states = {};
+  $('.locations .states INPUT[type="checkbox"]').change(function () {
     if ($(this).is(":checked")) {
       states[$(this).attr("data-id")] = $(this).attr("data-name");
     } else {
       delete states[$(this).attr("data-id")];
     }
-    const locations = Object.assign({}, states, cities);
-    if (Object.values(locations).length === 0) {
-      $(".locations H4").html("&nbsp;");
-    } else {
-      $(".locations H4").text(Object.values(locations).join(", "));
-    }
+    displayLocations(states, cities);
   });
 
-  let cities = {};
-  $('.locations > UL > UL > LI INPUT[type="checkbox"]').change(function () {
+  const cities = {};
+  $('.locations .cities INPUT[type="checkbox"]').change(function () {
     if ($(this).is(":checked")) {
       cities[$(this).attr("data-id")] = $(this).attr("data-name");
     } else {
       delete cities[$(this).attr("data-id")];
     }
-    const locations = Object.assign({}, states, cities);
-    if (Object.values(locations).length === 0) {
-      $(".locations H4").html("&nbsp;");
-    } else {
-      $(".locations H4").text(Object.values(locations).join(", "));
-    }
+    displayLocations(states, cities);
   });
 
-  let amenities = {};
-  $('INPUT[type="checkbox"]').change(function () {
+  const amenities = {};
+  $('.amenities INPUT[type="checkbox"]').change(function () {
     if ($(this).is(":checked")) {
       amenities[$(this).attr("data-id")] = $(this).attr("data-name");
     } else {
@@ -83,13 +73,31 @@ $("document").ready(function () {
       dataType: "json",
       success: function (data) {
         $("SECTION.places").empty();
-        return Places(data);
+        return places(data);
       },
     });
   });
 });
 
-function Places(data) {
+function displayLocations(states, cities) {
+  const locations = Object.assign({}, states, cities);
+  if (Object.values(locations).length === 0) {
+    $(".locations H4").html("&nbsp;");
+  } else {
+    $(".locations H4").text(Object.values(locations).join(", "));
+  }
+}
+
+function places(data) {
+  data.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1
+    } else if (a.name > b.name) {
+      return 1
+    } else {
+      return 0;
+    }
+  });
   $("SECTION.places").append(
     data.map((place) => {
       return `<article>

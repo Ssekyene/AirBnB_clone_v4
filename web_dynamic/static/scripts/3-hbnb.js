@@ -71,9 +71,9 @@ $("document").ready(function () {
       delete amenities[$(this).attr("data-id")];
     }
     if (Object.values(amenities).length === 0) {
-      $(".filter_amenities H4").html("&nbsp;");
+      $(".amenities H4").html("&nbsp;");
     } else {
-      $(".filter_amenities H4").text(Object.values(amenities).join(", "));
+      $(".amenities H4").text(Object.values(amenities).join(", "));
     }
   });
 });

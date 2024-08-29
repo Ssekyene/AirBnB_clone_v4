@@ -18,7 +18,7 @@
 	border-right: 1px solid #DDDDDD;
 }
 
-.filter_amenities {
+.amenities {
 	display: inline;
 	vertical-align: middle;
 	height: 100%;
@@ -51,7 +51,7 @@
 	position: sticky;
 }
 
-.filter_amenities:hover .popover {
+.amenities:hover .popover {
 	display: inline-block;
 	max-height: 300px;
 	overflow-y: scroll;
@@ -59,7 +59,7 @@
 	position: sticky;
 }
 
-.filter_amenities ul li {
+.amenities ul li {
 	padding-left: 10px;
 }
 

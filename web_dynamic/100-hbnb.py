@@ -28,4 +28,4 @@ def teardown(exc):
 port = 5000
 host = '0.0.0.0'
 if __name__ == "__main__":
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, debug=True)
