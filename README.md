@@ -1,4 +1,9 @@
-# AirBnB Clone - The Console
+# AirBnB clone - Web dynamic
+- learn JQuery
+- load objects from the client side by using your own RESTful API
+
+![web-dynamic snapshot](./web-dynamic-view.PNG)
+## AirBnB Clone - The Console
 The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
 
 #### Functionalities of this command interpreter:
@@ -14,9 +19,12 @@ The console is the first segment of the AirBnB project at Holberton School that 
 * [File Descriptions](#file-descriptions)
 * [Usage](#usage)
 * [Examples of use](#examples-of-use)
+* [Web dynamic Info](#web-dynamic-info)
+* [How to run the web App](#how-to-run-the-web-app)
 * [Bugs](#bugs)
 * [Authors](#authors)
 * [License](#license)
+* [References](#references)
 
 ## Environment
 This project is interpreted/tested on Ubuntu 14.04 LTS using python3 (version 3.4.3)
@@ -150,6 +158,62 @@ EOF  all  create  destroy  help  quit  show  update
 (hbnb) quit
 ```
 
+## Web dynamic Info
+### Import JQuery
+```
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+```
+### Before starting the project…
+You will work on a codebase using [Flasgger](https://github.com/flasgger/flasgger), you will need to install it locally first before starting the RestAPI: 
+```
+$ sudo apt-get install -y python3-lxml
+$ sudo pip3 install flask_cors # if it was not installed yet
+$ sudo pip3 install flasgger
+```
+If the RestAPI is not starting, please read the error message. Based on the(ses) error message(s), you will have to troubleshoot potential dependencies issues.
+
+Here some solutions:
+#### `jsonschema` exception
+```
+$ sudo pip3 uninstall -y jsonschema 
+$ sudo pip3 install jsonschema==3.0.1
+```
+#### `No module named 'pathlib2'`
+```
+$ sudo pip3 install pathlib2
+```
+
+### Expose ports from your Vagrant
+In your `Vagrantfile`, add this line for each port forwarded
+```
+# I expose the port 5001 of my vm to the port 5001 on my computer
+config.vm.network :forwarded_port, guest: 5001, host: 5001 
+```
+if you need to expose other ports, same line but you will need to replace the “guest port” (inside your vagrant) and your “host port” (outside your vagrant, used from your browser for example)
+
+It’s important in your project, to use the AirBnB API with the port `5001`
+
+## How to run the web App
+Run the Flask App this way when using `DBStorage`:
+```
+guillaume@ubuntu:~/AirBnB_clone_v4$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_dynamic.101-hbnb
+* Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+....
+```
+For the `FileStorage`:
+```
+python3 -m web_dynamic.101-hbnb
+```
+
+Run the `REST API` this way:
+```
+guillaume@ubuntu:~/AirBnB_v4$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_PORT=5001 python3 -m api.v1.app
+...
+```
+**Note:** The API uses port `5001`
+
 ## Bugs
 No known bugs at this time.
 
@@ -161,3 +225,8 @@ No known bugs at this time.
 Fourth part of Airbnb: Ssekyene Robert
 ## License
 Public Domain. No copy write protection.
+
+## References
+ - [Document ready](https://learn.jquery.com/using-jquery-core/document-ready/)
+ - [Introduction](https://jquery-tutorial.net/ajax/introduction/)
+- [HTTP access control (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
