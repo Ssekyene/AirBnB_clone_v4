@@ -54,6 +54,7 @@
 	overflow-y: scroll;
 	z-index: 100;
 	position: sticky;
+	margin-top: -5px;
 }
 
 .amenities:hover .popover {
@@ -62,6 +63,7 @@
 	overflow-y: scroll;
 	z-index: 100;
 	position: sticky;
+	margin-top: -5px;
 }
 
 .amenities ul li {
