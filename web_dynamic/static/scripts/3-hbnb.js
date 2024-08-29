@@ -8,12 +8,14 @@ $("document").ready(function () {
     success: function (response) {
       if (response.status === "OK") {
         $("DIV#api_status").addClass("available");
-      } else {
-        $("DIV#api_status").removeClass("available");
       }
     },
+    error: () => {
+      $("DIV#api_status").removeClass("available");
+      }
   });
 
+  // dynamically loads the places section from the frontend
   $.ajax({
     url: api,
     type: "POST",
@@ -21,6 +23,15 @@ $("document").ready(function () {
     contentType: "application/json",
     dataType: "json",
     success: function (data) {
+      data.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1
+        } else if (a.name > b.name) {
+          return 1
+        } else {
+          return 0;
+        }
+      });
       $("SECTION.places").append(
         data.map((place) => {
           return `<article>
@@ -34,20 +45,18 @@ $("document").ready(function () {
               <div class="guest_icon"></div>
               <br />${place.max_guest} Guests
             </div>
+
             <div class="number_rooms">
               <div class="bed_icon"></div>
               <br />${place.number_rooms} Rooms
             </div>
+
             <div class="number_bathrooms">
               <div class="bath_icon"></div>
               <br />${place.number_bathrooms} Bathrooms
             </div>
           </div>
-
-
-
           <div class="description">${place.description}</div>
-
         </article>`;
         })
       );
@@ -62,9 +71,9 @@ $("document").ready(function () {
       delete amenities[$(this).attr("data-id")];
     }
     if (Object.values(amenities).length === 0) {
-      $(".amenities H4").html("&nbsp;");
+      $(".filter_amenities H4").html("&nbsp;");
     } else {
-      $(".amenities H4").text(Object.values(amenities).join(", "));
+      $(".filter_amenities H4").text(Object.values(amenities).join(", "));
     }
   });
 });
