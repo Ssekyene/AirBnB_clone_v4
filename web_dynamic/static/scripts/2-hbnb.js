@@ -1,6 +1,6 @@
 $('document').ready(function () {
   // toggles the top right circle color for api presence or absence
-  const url = 'http://' + window.location.hostname + ':5001/api/v1/status/';
+  const url = 'http://' + window.location.hostname + '/api/v1/status/';
   $.ajax({
     url: url,
     method: 'GET',
